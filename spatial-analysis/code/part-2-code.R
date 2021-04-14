@@ -9,13 +9,13 @@ remotes::install_github("walkerke/crsuggest")
 ## Set your Census API key if need be
 library(tidycensus)
 options(tigris_use_cache = TRUE)
-census_api_key("YOUR KEY GOES HERE")
+census_api_key("cb35abd85dbd447ccaa12338622931479817d039", install = T)
 
 
 ## ----basic-usage---------------------------------------------------------------------------------------
 library(tigris)
 
-or_counties <- counties(state = "OR")
+or_counties <- counties(state = "TX", cb = F)
 
 or_counties
 
@@ -25,19 +25,19 @@ plot(or_counties$geometry)
 
 
 ## ----benton-tracts-------------------------------------------------------------------------------------
-benton_tracts <- tracts(state = "OR", county = "Benton")
+benton_tracts <- tracts(state = "TX", county = "Bexar")
 
 plot(benton_tracts$geometry)
 
 
 ## ----benton-roads--------------------------------------------------------------------------------------
-benton_roads <- roads(state = "OR", county = "Benton")
+benton_roads <- roads(state = "TX", county = "Bexar")
 
 plot(benton_roads$geometry)
 
 
 ## ----dc-landmarks--------------------------------------------------------------------------------------
-dc_landmarks <- landmarks("DC", type = "point")
+dc_landmarks <- landmarks("TX", type = "point")
 
 plot(dc_landmarks$geometry)
 
@@ -57,14 +57,14 @@ plot(mi_counties_cb$geometry)
 ## ----get-yearly-data-----------------------------------------------------------------------------------
 tarrant90 <- suppressMessages(tracts("TX", "Tarrant", cb = TRUE, year = 1990))
 tarrant00 <- suppressMessages(tracts("TX", "Tarrant", cb = TRUE, year = 2000))
-tarrant10 <- tracts("TX", "Tarrant", cb = TRUE, year = 2010)
+tarrant10 <- suppressMessages(tracts("TX", "Tarrant", cb = TRUE, year = 2010))
 # Cartographic boundary files not yet released for 2020
 tarrant20 <- tracts("TX", "Tarrant", year = 2020)
 
 
 
 ## ----plot-yearly-data----------------------------------------------------------------------------------
-par(mfrow = c(2, 2))
+par(mfrow = c(1, 1))
 
 plot(tarrant90$geometry, main = "1990")
 plot(tarrant00$geometry, main = "2000")
@@ -90,7 +90,7 @@ sync(mapview(tarrant90), mapview(tarrant20))
 ## ----combine-bgs---------------------------------------------------------------------------------------
 library(tidyverse)
 
-state_codes <- c(state.abb, "DC")
+state_codes <- c(state.abb, "TX")
 
 us_bgs <- map_df(state_codes, ~block_groups(state = .x, cb = TRUE))
 
@@ -126,11 +126,11 @@ options(tigris_use_cache = TRUE)
 
 dc_income1 <- get_acs(geography = "tract", 
                      variables = c(hhincome = "B19013_001"), 
-                     state = "DC")
+                     state = "TX")
 
 dc_income <- get_acs(geography = "tract", 
                      variables = c(hhincome = "B19013_001"), 
-                     state = "DC", 
+                     state = "TX", 
                      geometry = TRUE)
 
 
